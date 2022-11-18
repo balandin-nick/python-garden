@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "lesson_1"
+version = "0.1.0"
+description = "Пример кода для первой статьи"
+authors = ["Nick Balandin"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+python-dotenv = "^0.21.0"
+pydantic = "^1.10.2"
+fastapi = "^0.82.0"
+uvicorn = "^0.18.3"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+line_length = 120
+lines_after_imports=2
+skip="venv,.venv,.git,alembic"

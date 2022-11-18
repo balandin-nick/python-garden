@@ -1,0 +1,52 @@
+version: "3.4"
+services:
+  api:
+    container_name: python-garden_api
+    image: python_garden
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    command: "api"
+    environment:
+      PYTHONUNBUFFERED: 1
+      SERVICE_DB_HOST: service_db
+      SERVICE_DB_NAME: postgres
+      SERVICE_DB_USERNAME: postgres
+    volumes:
+      - .:/opt/lesson_2
+  consumer:
+    container_name: python-garden_consumer
+    image: python_garden
+    build:
+      context: .
+    command: "consumer"
+    environment:
+      PYTHONUNBUFFERED: 1
+      SERVICE_DB_HOST: service_db
+      SERVICE_DB_NAME: postgres
+      SERVICE_DB_USERNAME: postgres
+      EVENT_BROKER_HOST: mq
+      EVENT_BROKER_PORT: 5672
+      EVENT_BROKER_USERNAME: python_garden
+    volumes:
+      - .:/opt/lesson_2
+
+  service_db:
+    container_name: python-garden_db
+    image: postgres:10
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+  mq:
+    container_name: python-garden_mq
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: python_garden
+      RABBITMQ_DEFAULT_PASS: python_garden
